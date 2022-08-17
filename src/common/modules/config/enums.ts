@@ -1,0 +1,3 @@
+export enum VARIABLES_STORAGE_ENUM {
+  NODE_ENV = 'NODE_ENV',
+}

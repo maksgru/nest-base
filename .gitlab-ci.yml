@@ -1,0 +1,10 @@
+stages:
+  - deploy
+staging:
+  stage: deploy
+  script:
+    - gem install faraday -v 1.8.0
+    - gem install dpl
+    - dpl --provider=heroku --app=$APP_NAME --api_key=$HEROKU_STAGING_API_KEY
+  only:
+    - dev

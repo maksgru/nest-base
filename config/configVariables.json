@@ -1,0 +1,25 @@
+{
+  "configStorage": "CONFIG_STORAGE",
+  "app": {
+    "name": "APP_NAME",
+    "hostName": "APP_HOST_NAME",
+    "port": "APP_PORT",
+    "accessTokenExpiresIn": "ACCESS_TOKEN_EXPIRES_IN",
+    "refreshTokenExpiresIn": "REFRESH_TOKEN_EXPIRES_IN",
+    "jwtSecret": "JWT_SECRET",
+    "swaggerEnabled": "SWAGGER_ENABLED"
+  },
+  "db": {
+    "host": "DB_HOST",
+    "port": "DB_PORT",
+    "username": "DB_USER_NAME",
+    "password": "DB_PASSWORD",
+    "database": "DB_NAME"
+  },
+  "mail": {
+    "service": "MAIL_SERVICE",
+    "user": "MAIL_SERVICE_USER",
+    "pass": "MAIL_SERVICE_PASSWORD",
+    "from": "MAIL_SERVICE_FROM"
+  }
+}

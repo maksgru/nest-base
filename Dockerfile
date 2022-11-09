@@ -1,4 +1,4 @@
-FROM node:16 as build
+FROM node:16.17.0-bullseye-slim as build
 
 WORKDIR /app
 COPY . .

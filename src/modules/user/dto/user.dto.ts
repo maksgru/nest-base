@@ -21,10 +21,6 @@ export default class UserDto implements IUser {
   @IsEnum(AccountStatusEnum)
   public readonly accountStatus: AccountStatusEnum;
 
-  @ApiProperty({ example: USER_EXAMPLES.DELIVERY_ADDRESS })
-  @IsString()
-  public readonly deliveryAddress: string;
-
   @ApiProperty({ example: USER_EXAMPLES.FATHER_NAME })
   @IsString()
   public readonly fatherName: string;

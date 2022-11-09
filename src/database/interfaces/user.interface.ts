@@ -1,6 +1,4 @@
 import { AccountStatusEnum } from '../enums/account-status.enum';
-import { IProduct } from './product.interface';
-import { IShop } from './shop.interface';
 
 export interface IUser {
   readonly id: number;

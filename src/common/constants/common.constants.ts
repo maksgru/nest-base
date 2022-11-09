@@ -1,5 +1,5 @@
 const COMMON_CONSTANTS = {
-  APP_NAME: 'TneNearByShop',
+  APP_NAME: 'WebApp',
 };
 
 export default COMMON_CONSTANTS;

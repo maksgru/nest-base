@@ -12,9 +12,9 @@ module.exports = {
   db: {
     host: 'localhost',
     port: 5432,
-    username: '',
-    password: '',
-    database: '',
+    username: 'web_app',
+    password: 'web_app',
+    database: 'web_app',
   },
   mail: {
     service: 'gmail',

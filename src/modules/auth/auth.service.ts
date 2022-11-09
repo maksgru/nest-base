@@ -1,13 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { ISignIn, ISignInPayload, ISignUp } from './interfaces';
+import { ISignIn, ISignInPayload } from './interfaces';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import Confirmation from '../../database/entities/confirmation.entity';
 import User from '../../database/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { IUser } from '../../database/interfaces/user.interface';
-import { AccountStatusEnum } from '../../database/enums/account-status.enum';
 import { SIGN_IN_USER_FIELDS } from './constants';
 import * as bcrypt from 'bcrypt';
 // import * as path from 'path';
@@ -18,8 +16,6 @@ import { MailerService } from '@nestjs-modules/mailer';
 export default class AuthService {
   constructor(
     private readonly mailService: MailerService,
-    @InjectRepository(Confirmation)
-    private readonly confirmationRepository: Repository<Confirmation>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly jwtService: JwtService,
@@ -37,26 +33,6 @@ export default class AuthService {
     };
   }
 
-  public async signUp(userData: ISignUp): Promise<string> {
-    const passwordHash = await this.createPasswordHash(userData.password);
-    const user = await this.userRepository.create({ ...userData, passwordHash });
-    await this.userRepository.save(user);
-    const confirmation = this.confirmationRepository.create();
-    const confirmationLink = this.generateRegistrationLink(confirmation.id);
-    confirmation.user = user;
-    confirmation.value = confirmationLink;
-    await this.confirmationRepository.save(confirmation);
-    // await this.mailService.sendMail({
-    //   to: user.email,
-    //   subject: 'Подтверждение регистрации',
-    //   template: path.join(process.cwd(), MAIL_CONSTANTS.TEMPLATE_DIR, MAIL_CONSTANTS.SIGN_UP_TEMPLATE),
-    //   context: {
-    //     username: user.firstName,
-    //   },
-    // });
-    return confirmationLink;
-  }
-
   public async signIn(userData: ISignIn): Promise<ISignInPayload> {
     const user = await this.userRepository.findOne(
       { email: userData.email },
@@ -69,22 +45,6 @@ export default class AuthService {
     const tokenPayload = await this.generateTokenPayload(user);
     delete user.passwordHash;
     return { ...tokenPayload, user };
-  }
-
-  public async confirmEmail(confirmationId: string): Promise<ISignInPayload> {
-    const confirmation = await this.confirmationRepository.findOne(confirmationId,
-      { relations: ['user'] }
-    );
-    const tokenPayload = await this.generateTokenPayload(confirmation.user);
-    confirmation.user.accountStatus = AccountStatusEnum.ACTIVE;
-    confirmation.isUsed = true;
-    await this.userRepository.save(confirmation.user);
-    await this.confirmationRepository.save(confirmation);
-
-    return {
-      ...tokenPayload,
-      user: confirmation.user,
-    };
   }
 
   public async refreshToken(refreshToken: string): Promise<ISignInPayload> {

@@ -55,8 +55,8 @@ export default class AppService {
     if (!swaggerEnabled) return;
     const options = new DocumentBuilder()
       .addBearerAuth()
-      .setTitle('Nearby Shop')
-      .setDescription('Nearby Shop API documentation')
+      .setTitle('Web App')
+      .setDescription('Web App API documentation')
       .setVersion('1.0')
       .build();
     const document = SwaggerModule.createDocument(app, options);

@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'yarn'
+                sh 'yarn install --frozen-lockfile'
             }
         }
         stage('Test'){

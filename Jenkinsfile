@@ -1,4 +1,4 @@
-void runPipeLine() {
+def runPipeLine() {
     pipeline {
         agent { dockerfile true }
         stages {
@@ -9,7 +9,7 @@ void runPipeLine() {
     }
 }
 
-void runBuild() {
+def runBuild() {
     stage('Build') {
         steps {
             sh 'yarn install --frozen-lockfile'
@@ -17,7 +17,7 @@ void runBuild() {
     }
 }
 
-void runTestUnit() {
+def runTestUnit() {
     stage('test:unit') {
         steps {
             sh 'yarn test:unit'

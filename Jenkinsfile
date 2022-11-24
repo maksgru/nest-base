@@ -1,18 +1,28 @@
-pipeline {
-  agent { dockerfile true }
-  environment {
-    NODE_ENV = 'test'
-  }
-    stages {
-        stage('Build') {
-            steps {
-                sh 'yarn install --frozen-lockfile'
-            }
-        }
-        stage('Test'){
-            steps {
-                sh 'yarn test:unit'
-            }
+void runPipeLine() {
+    pipeline {
+        agent { dockerfile true }
+        stages {
+            runBuild()
+            environment { NODE_ENV = 'test' }
+            runTestUnit()
         }
     }
 }
+
+void runBuild() {
+    stage('Build') {
+        steps {
+            sh 'yarn install --frozen-lockfile'
+        }
+    }
+}
+
+void runTestUnit() {
+    stage('test:unit') {
+        steps {
+            sh 'yarn test:unit'
+        }
+    }
+}
+
+runPipeLine()

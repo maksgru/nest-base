@@ -2,8 +2,8 @@ def runPipeLine() {
     return pipeline {
         agent { dockerfile true }
         stages {
-            runBuild()
             environment { NODE_ENV = 'test' }
+            runBuild()
             runTestUnit()
         }
     }

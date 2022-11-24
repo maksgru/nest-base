@@ -1,5 +1,5 @@
 def runPipeLine() {
-    pipeline {
+    return pipeline {
         agent { dockerfile true }
         stages {
             runBuild()
@@ -10,7 +10,7 @@ def runPipeLine() {
 }
 
 def runBuild() {
-    stage('Build') {
+    return stage('Build') {
         steps {
             sh 'yarn install --frozen-lockfile'
         }
@@ -18,7 +18,7 @@ def runBuild() {
 }
 
 def runTestUnit() {
-    stage('test:unit') {
+    return stage('test:unit') {
         steps {
             sh 'yarn test:unit'
         }

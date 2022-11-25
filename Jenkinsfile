@@ -5,9 +5,9 @@ node {
 }
 
 void runTestUnit() {
-    env.NODE_ENV = 'test'
-    docker.build("my-image:${env.BUILD_ID}", "-f Dockerfile . --pull")
     stage('test:unit') {
+        env.NODE_ENV = 'test'
+        docker.build("my-image:${env.BUILD_ID}", "-f Dockerfile .")
         sh 'yarn test:unit'
     }
 }

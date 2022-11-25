@@ -1,28 +1,14 @@
-def runPipeLine() {
-    return pipeline {
-        agent { dockerfile true }
-        stages {
-            environment { NODE_ENV = 'test' }
-            runBuild()
-            runTestUnit()
-        }
+node('dockerhost') {
+    cleanWs()
+    stage('build') {
+        checkout scm
+        env.NODE_ENV = 'test'
     }
+    runTestUnit()
 }
 
-def runBuild() {
-    return stage('Build') {
-        steps {
-            sh 'yarn install --frozen-lockfile'
-        }
+void runTestUnit() {
+    stage('test:unit') {
+        sh 'yarn test:unit'
     }
 }
-
-def runTestUnit() {
-    return stage('test:unit') {
-        steps {
-            sh 'yarn test:unit'
-        }
-    }
-}
-
-runPipeLine()

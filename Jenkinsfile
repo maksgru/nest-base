@@ -1,7 +1,7 @@
 node {
     cleanWs()
     checkout scm
-    image = docker.build("my-image:${env.BUILD_ID}", "-f Dockerfile .")
+    image = docker.build("my-image:${env.BUILD_ID}", "-f Dockerfile . --pull")
     runTestUnit()
 }
 

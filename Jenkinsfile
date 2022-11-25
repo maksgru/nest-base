@@ -3,7 +3,7 @@ node {
     stage('build') {
         checkout scm
         env.NODE_ENV = 'test'
-        image = docker.build("my-image:${env.BUILD_ID}", "-f .Dockerfile .")
+        image = docker.build("my-image:${env.BUILD_ID}", "-f Dockerfile .")
     }
     runTestUnit()
 }

@@ -8,7 +8,7 @@ node {
 
 void buildDockerImage() {
     stage('build') {
-        dockerImage = docker.image("my-image:${env.BUILD_ID}", "-f Dockerfile .")
+        dockerImage = docker.build("my-image:${env.BUILD_ID}", "-f Dockerfile .")
     }
 }
 

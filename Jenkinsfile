@@ -2,8 +2,13 @@ def dockerImage
 node {
     cleanWs()
     checkout scm
-    buildDockerImage()
-    // runTestUnit()
+    stage('build') {
+            dockerImage = docker.build("my-image:${env.BUILD_ID}", "-f Dockerfile .").inside {
+                withEnv(["NODE_ENV = 'test'"]) {
+                    sh 'yarn test:unit'
+                }
+            }
+        }
 }
 
 void buildDockerImage() {

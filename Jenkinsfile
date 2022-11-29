@@ -3,7 +3,7 @@ node {
     cleanWs()
     checkout scm
     stage('build') {
-            dockerImage = docker.build("my-image:${env.BUILD_ID}", "-f Dockerfile .").inside {
+            dockerImage = docker.image("my-image:${env.BUILD_ID}", "-f Dockerfile .").inside {
                 withEnv(["NODE_ENV = 'test'"]) {
                     sh 'yarn test:unit'
                 }

@@ -14,8 +14,10 @@ class BasePipeline {
     def dockerImage
 
     BasePipeline() {
-        cleanWs()
-        checkout scm
+        node {
+            cleanWs()
+            checkout scm
+        }
     }
 
     void buildDockerImage() {

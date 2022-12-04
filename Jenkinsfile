@@ -14,8 +14,8 @@ void prepareJob() {
 
     def envVariablesJson = readJSON file: './config/configVariables.json'
 
-    def ins = envVariablesJson instanceof List
-    sh "echo ins -  $ins"
+    def keys = envVariablesJson.getKeys()
+    sh "echo keys -  $keys"
     sh "echo $envVariablesJson"
 
     def secrets = getListOfSecretes(envVariablesJson)

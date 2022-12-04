@@ -14,11 +14,11 @@ void prepareJob() {
 
     def envVariablesJson = readJSON file: './config/configVariables.json'
 
-    sh 'echo $envVariablesJson'
+    sh "echo $envVariablesJson"
 
     def secrets = getListOfSecretes(envVariablesJson)
 
-    sh 'echo $secrets'
+    sh "echo $secrets"
 }
 
 void buildDockerImage() {

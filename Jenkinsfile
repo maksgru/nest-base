@@ -14,7 +14,7 @@ void prepareJob() {
 
     def envVariablesJson = readJSON file: './config/configVariables.json'
 
-    def ins = envVariablesJson instaceof Array
+    def ins = envVariablesJson instanceof Array
     sh "echo ins -  $ins"
     sh "echo $envVariablesJson"
 

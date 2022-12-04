@@ -1,41 +1,67 @@
-// node {
-//     cleanWs()
-//     checkout scm
-//     stage('test') {
-//         def dockerImage = docker.build("my-image:${env.BUILD_ID}", "-f Dockerfile .")
-//         dockerImage.inside {
-//             sh 'yarn install'
-//             sh 'yarn test:unit'
-//         }
-//     }
-// }
+properties([])
 
-class BasePipeline {
-    def dockerImage
+ def dockerImage
 
-    BasePipeline() {
-        node {
-            cleanWs()
-            checkout scm
-        }
+node {
+    prepareJob()
+    buildImage()
+    runTestUnit()
+}
+
+void prepareJob() {
+    cleanWs()
+    checkout scm
+
+    def envVariablesJson = readJSON file: './config/configVariables.json'
+
+    sh 'echo $envVariablesJson'
+
+    def secrets = getListOfSecretes(envVariablesJson)
+
+    sh 'echo $secrets'
+}
+
+void buildDockerImage() {
+    stage('build') {
+        dockerImage = docker.build("my-image:${env.BUILD_ID}", '-f Dockerfile .')
     }
+}
 
-    void buildDockerImage() {
-        this.dockerImage = docker.build("my-image:${env.BUILD_ID}", "-f Dockerfile .")
+def getListOfSecretes(secrets) {
+    secretsOut = []
+    for (secret in secrets) {
+        secretsOut+=["vaultKey": secret]
     }
+    return secretsOut
+}
 
-    void runTestUnit(String command) {
-        String shCommand = command ? command : 'npm run test:unit'
-
-        this.dockerImage.inside {
-            stage('test:unit') {
-                sh "$shCommand"
-            }
+void runTestUnit() {
+    stage('test:unit') {
+        dockerImage.inside {
+            sh 'yarn install'
+            sh 'yarn test:unit'
         }
     }
 }
 
-basePipeline = new BasePipeline()
+void getVaultVariables() {
 
-basePipeline.buildDockerImage()
-basePipeline.runTestUnit()
+}
+
+void loadEnvToDockerImage() {
+
+}
+
+void pushDockerImage() {
+    stage('push') {
+
+    }
+}
+
+void depoy() {
+
+}
+
+void sonarCubeCheck() {
+
+}

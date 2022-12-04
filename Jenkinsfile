@@ -18,6 +18,11 @@ void prepareJob() {
     sh "echo keys -  $keys"
     sh "echo $envVariablesJson"
 
+    envVariablesJson.issues.each{issue->
+        println 'issue is'
+        println issue
+}
+
     def secrets = getListOfSecretes(envVariablesJson)
 
     sh "echo $secrets"

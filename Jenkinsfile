@@ -4,7 +4,7 @@ properties([])
 
 node {
     prepareJob()
-    buildImage()
+    buildDockerImage()
     runTestUnit()
 }
 

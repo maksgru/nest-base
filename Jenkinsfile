@@ -30,6 +30,7 @@ void buildDockerImage() {
 def getListOfSecretes(secrets) {
     secretsOut = []
     for (secret in secrets) {
+        "echo secret is - $secret"
         secretsOut+=["vaultKey": secret]
     }
     return secretsOut

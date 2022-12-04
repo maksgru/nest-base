@@ -14,10 +14,6 @@ void prepareJob() {
 
     def envVariablesJson = readJSON file: './config/configVariables.json'
 
-    sh "echo $envVariablesJson"
-
-    
-
     def secrets = getListOfSecretes(envVariablesJson)
 
     sh "echo $secrets"
@@ -32,8 +28,6 @@ void buildDockerImage() {
 def getListOfSecretes(secrets) {
     secretsOut = []
     secrets.each { key, value ->
-        sh "echo key -  $key"
-        sh "echo value - $value"
         if (value instanceof String) {
             secretsOut += ['vaultKey': value]
         } else {

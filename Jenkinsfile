@@ -16,9 +16,7 @@ void prepareJob() {
 
     sh "echo $envVariablesJson"
 
-    envVariablesJson.each { key, value ->
-        echo "Walked through key $key and value $value"
-    }
+    
 
     def secrets = getListOfSecretes(envVariablesJson)
 
@@ -33,9 +31,12 @@ void buildDockerImage() {
 
 def getListOfSecretes(secrets) {
     secretsOut = []
-    for (secret in secrets) {
-        "echo secret is - $secret"
-        secretsOut+=["vaultKey": secret]
+    envVariablesJson.each { key, value ->
+        if (value instanceof String) {
+            secretsOut += ['vaultKey': value]
+        } else {
+            secretsOut += getListOfSecretes(secrets[key])
+        }
     }
     return secretsOut
 }

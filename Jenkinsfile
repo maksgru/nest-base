@@ -1,3 +1,4 @@
+import groovy.json.JsonSlurper
 properties([])
 
  def dockerImage
@@ -12,7 +13,8 @@ void prepareJob() {
     cleanWs()
     checkout scm
 
-    def envVariablesJson = readJSON file: './config/configVariables.json'
+    // def envVariablesJson = readJSON file: './config/configVariables.json'
+    envVariablesJson = jsonSlurper.parse(new File('./config/configVariables.json'))
 
     sh "echo $envVariablesJson"
 

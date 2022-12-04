@@ -31,7 +31,7 @@ void buildDockerImage() {
 
 def getListOfSecretes(secrets) {
     secretsOut = []
-    envVariablesJson.each { key, value ->
+    secrets.each { key, value ->
         sh "echo key -  $key"
         sh "echo value - $value"
         if (value instanceof String) {
